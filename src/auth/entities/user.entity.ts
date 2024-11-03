@@ -1,5 +1,7 @@
 import { Transaction } from '../../transaction/entities/transaction.entity';
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -19,7 +21,7 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column('text')
+  @Column('text', { select: false })
   password: string;
 
   @Column('bool', { default: true })
@@ -31,12 +33,16 @@ export class User {
   })
   roles: string[];
 
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
   @OneToMany(() => Transaction, (transaction) => transaction.user)
   transactions: Transaction[];
+
+  @BeforeInsert()
+  checkFieldsBeforeInsert() {
+    this.email.toLowerCase().trim();
+  }
+
+  @BeforeUpdate()
+  checkFieldsBeforeUpdate() {
+    this.checkFieldsBeforeInsert();
+  }
 }
