@@ -8,6 +8,10 @@ import {
 
 export class CreateUserDto {
   @IsString()
+  @MinLength(1)
+  name: string;
+
+  @IsString()
   @IsEmail()
   email: string;
 
@@ -19,8 +23,4 @@ export class CreateUserDto {
       'The password must have a Uppercase, lowercase, number and special character',
   })
   password: string;
-
-  @IsString()
-  @MinLength(1)
-  name: string;
 }

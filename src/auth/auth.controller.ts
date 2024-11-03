@@ -4,7 +4,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { User } from './entities/user.entity';
 import { GetUser } from './decorators/get-user.decorator';
-import { ValidRoles } from './interfaces/valid-routes.interface';
 import { Auth } from './decorators/auth.decorator';
 
 @Controller('auth')

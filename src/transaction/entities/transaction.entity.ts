@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { TransactionType } from '../interfaces/type';
 
 @Entity('transaction')
 export class Transaction {
@@ -14,7 +15,7 @@ export class Transaction {
   id: string;
 
   @Column()
-  type: string;
+  type: TransactionType;
 
   @Column({ unique: true })
   description: string;
