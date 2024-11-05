@@ -3,11 +3,9 @@ import {
   BeforeInsert,
   BeforeUpdate,
   Column,
-  CreateDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('user')
@@ -24,7 +22,7 @@ export class User {
   @Column('text', { select: false })
   password: string;
 
-  @Column('bool', { default: true })
+  @Column('bool', { default: true, select: false })
   isActive: boolean;
 
   @Column('text', {
