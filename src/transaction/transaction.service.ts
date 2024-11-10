@@ -4,7 +4,6 @@ import { Transaction } from './entities/transaction.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/entities/user.entity';
-import { FilterTransactions } from './interfaces/filter';
 import { TransactionType } from './interfaces/type';
 
 @Injectable()
@@ -39,7 +38,39 @@ export class TransactionService {
       return this.handleError(error);
     }
   }
+  async getTransactionSummary(user: User) {
+    try {
+      const incomes = await this.transactionRepository.find({
+        where: { user, type: TransactionType.INCOME },
+      });
+      const expenses = await this.transactionRepository.find({
+        where: { user, type: TransactionType.EXPENSE },
+      });
 
+      const totalIncome = incomes.reduce(
+        (sum, transaction) => transaction.ammount + sum,
+        0,
+      );
+      const totalExpense = expenses.reduce(
+        (sum, transaction) => transaction.ammount + sum,
+        0,
+      );
+      const profit = totalIncome - totalExpense;
+      const total = {
+        totalIncome,
+        totalExpense,
+      };
+
+      return {
+        profit,
+        total,
+        incomes,
+        expenses,
+      };
+    } catch (error) {
+      return this.handleError(error);
+    }
+  }
   handleError(error: any) {
     console.error(error);
   }

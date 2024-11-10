@@ -5,11 +5,14 @@ import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { User } from 'src/auth/entities/user.entity';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { TransactionType } from './interfaces/type';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Transaction } from './entities/transaction.entity';
 
 @Controller('transaction')
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
+  @ApiTags('Transaction')
   @Post('create')
   @Auth()
   createTransaction(
@@ -23,11 +26,15 @@ export class TransactionController {
   }
 
   @Get('list')
+  @ApiResponse({
+    status: 201,
+    type: Transaction,
+  })
   @Auth()
   getTransactions(
     @GetUser() user: User,
     @Query('filter') filter: TransactionType,
   ) {
-    return this.transactionService.getTransactions(user, filter);
+    return this.transactionService.getTransactionSummary(user);
   }
 }

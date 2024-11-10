@@ -12,5 +12,9 @@ export default registerAs(
     database: process.env.DB_NAME,
     autoLoadEntities: true,
     synchronize: process.env.NODE_ENV !== 'production',
+    ssl: process.env.NODE_ENV === 'production',
+    extra: process.env.NODE_ENV === 'production' && {
+      rejectUnauthorized: false,
+    },
   }),
 );

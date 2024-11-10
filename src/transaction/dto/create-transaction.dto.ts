@@ -13,5 +13,5 @@ export class CreateTransactionDto {
   @IsString()
   @MinLength(1)
   @MaxLength(9)
-  ammount: string;
+  ammount: number;
 }
